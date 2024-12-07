@@ -1,0 +1,32 @@
+* {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.responsive-img {
+  max-height: 300px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.responsive-img:hover {
+  transform: scale(1.1);
+}
+
+.logo {
+  font-size: 3rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}

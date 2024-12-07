@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+
+  <!-- BOOTSTRAP CSS LINK -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FONT LINK (OSWALD - BOLD) -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- CSS LINK -->
+  <link rel="stylesheet" href="./landing.css">
+</head>
+
+<body>
+  <div class="header py-2">
+    <div class="container d-flex justify-content-center mt-5">
+      <a href="../landing/landing.html" class="text-decoration-none text-dark">
+        <h1>EBOOK</h1>
+      </a>
+    </div>
+  </div>
+
+  <div class="d-flex py-3 my-3">
+    <img src="../../images/Cover.png" alt="Book Cover" class="mx-auto w-25">
+  </div>
+
+  <div class="d-flex justify-content-center gap-4">
+    <a href="../find-book/find-book.html" class="btn btn-dark">Find a Book</a>
+    <a href="../add-book/add-book.html" class="btn btn-dark shadow">Add a Book</a>
+  </div>
+
+  <div class="container d-flex justify-content-center mt-2">
+    <hr>
+  </div>
+
+  <div class="books-section container text-center mt-3">
+    <div class="card mx-auto p-3 shadow-sm">
+      <h3 class="mb-3">Browse All Books</h3>
+      <a href="../books/books.html" class="btn btn-outline-dark books-btn">View Collection</a>
+    </div>
+  </div>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelector('img').addEventListener('click', () => {
+      Swal.fire({
+        title: 'Welcome to EBOOK!',
+        text: 'Explore, add, and manage your book collection.',
+        icon: 'info',
+        confirmButtonText: 'Got it!',
+        confirmButtonColor: '#343a40'
+      });
+    });
+  </script>
+</body>
+
+</html>

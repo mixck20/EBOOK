@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EBook Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./books.css">
+</head>
+
+<body>
+  <div class="header py-3">
+    <div class="container">
+      <a href="../landing/landing.html" class="text-decoration-none text-dark">
+        <h1>EBOOK</h1>
+      </a>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="bookList"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    async function fetchBooks() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const authorName = urlParams.get('author_name') || '';
+      const bookName = urlParams.get('book_name') || '';
+      const genre = urlParams.get('genre') || '';
+
+      try {
+        const response = await fetch(`http://localhost:3000/story_books?author_name=${authorName}&book_name=${bookName}&genre=${genre}`);
+        const books = await response.json();
+
+        if (response.ok && books.length > 0) {
+          displayBooks(books);
+        } else {
+          document.getElementById('bookList').innerHTML = '<p>No books found.</p>';
+        }
+      } catch (error) {
+        console.error("Error fetching books:", error);
+        document.getElementById('bookList').innerHTML = '<p>Error fetching books. Please try again later.</p>';
+      }
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+
+    function displayBooks(books) {
+      const bookListContainer = document.getElementById('bookList');
+      bookListContainer.innerHTML = '';  
+
+      books.forEach(book => {
+        let formattedDate = formatDate(book.publish_date);
+
+        const defaultCover = '../../images/blank-thumbnail.png';  
+        const bookImageUrl = book.Image ? book.Image : defaultCover;  
+
+        const listItem = document.createElement('div');
+        listItem.classList.add('col');
+        listItem.innerHTML = `
+          <div class="card">
+            <img src="${bookImageUrl}" class="card-img-top" alt="${book.book_name}" style="height: 300px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">${book.book_name}</h5>
+              <p><strong>Author:</strong> ${book.author_name}</p>
+              <p><strong>Genre:</strong> ${book.genre}</p>
+              <p><strong>Published:</strong> ${formattedDate}</p>
+              <p><strong>Status:</strong> ${book.status}</p>
+              <a href="../book/book.html?book_id=${book.book_id}" class="btn btn-dark">View Book</a>
+            </div>
+          </div>
+        `;
+        bookListContainer.appendChild(listItem);
+      });
+    }
+
+    fetchBooks();
+  </script>
+</body>
+
+</html>

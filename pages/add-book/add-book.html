@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add a Book</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="add-book.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <div class="header py-3">
+    <div class="container">
+      <a href="../landing/landing.html" class="text-decoration-none text-dark">
+        <h1>EBOOK</h1>
+      </a>
+    </div>
+  </div>
+
+  <!-- Image Section -->
+  <div class="d-flex py-3">
+    <img src="../../images/Cover.png" alt="Book Cover" class="mx-auto w-25" id="coverImage" style="cursor: pointer;">
+  </div>
+
+  <div class="py-3">
+    <div class="container">
+      <a href="../landing/landing.html" class="text-decoration-none text-dark">
+      </a>
+    </div>
+  </div>
+
+  <div class="container py-3">
+    <div class="card shadow">
+      <div class="header">
+        <h3 class="text-center">Add a Book</h3>
+      </div>
+      <div class="card-body">
+        <form id="addBookForm">
+          <div class="row">
+            <div class="col-md-6 d-flex flex-column">
+              <div class="mb-3">
+                <input type="text" class="form-control" id="bookTitle" placeholder="Book Title" required>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="authorName" placeholder="Author's Name" required>
+              </div>
+              <div class="mb-3">
+                <input type="date" class="form-control" id="publishedDate" placeholder="Published Date" required>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" id="genre" placeholder="Genre" required>
+              </div>
+              <div class="mb-3">
+                <select class="form-select" id="status" required>
+                  <option value="On Going">On Going</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Archived">Archived</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column p-1">
+              <div class="mb-4">
+                <input type="url" class="form-control" id="imageURL" placeholder="Book Cover Image URL">
+              </div>
+              <div class="mb-4">
+                <input type="url" class="form-control" id="readURL" placeholder="Read URL">
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" id="description" rows="5" placeholder="Enter Description" required></textarea>
+              </div>
+            </div>
+            <div class="mt-auto d-flex justify-content-center col-md-12">
+              <button type="submit" class="btn btn-dark w-25">Add a Book</button>
+            </div>
+          </div>
+        </form>
+        <div id="responseMessage" class="text-center mt-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('coverImage').addEventListener('click', () => {
+      Swal.fire({
+        title: 'Publish Your Book!',
+        text: 'This is the place to publish your book details.',
+        icon: 'info',
+        confirmButtonText: 'OK',
+      });
+    });
+
+    document.getElementById('addBookForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const bookData = {
+        book_name: document.getElementById('bookTitle').value.trim(),
+        author_name: document.getElementById('authorName').value.trim(),
+        genre: document.getElementById('genre').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        publish_date: document.getElementById('publishedDate').value.trim(),
+        status: document.getElementById('status').value.trim(),
+        image: document.getElementById('imageURL').value.trim(),
+        read: document.getElementById('readURL').value.trim(),
+      };
+
+      try {
+        const response = await fetch('http://localhost:3000/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookData),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          Swal.fire({
+            title: 'Success!',
+            text: 'Book added successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: result.message,
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          title: 'Unexpected Error!',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
